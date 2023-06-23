@@ -1,0 +1,52 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "NSGid": {
+            "value": "/subscriptions/13422346-eb93-429e-85d8-3039a19d52da/resourceGroups/BBY-NP-App-Managed-Network-RG-USC-01/providers/Microsoft.Network/networkSecurityGroups/BBY-NP-App-Corp-PaaS-SpringApps-VNET-USC-01-NSG-SpringApps-01"
+        },
+        "rtid": {
+            "value": "/subscriptions/13422346-eb93-429e-85d8-3039a19d52da/resourceGroups/BBY-NP-App-Managed-Network-RG-USC-01/providers/Microsoft.Network/routeTables/BBY-NP-App-Corp-PaaS-SpringApps-VNET-USC-01-SRJ-PL-Runtime-RouteTable-01"
+        },
+        "vnetname": {
+           "value": "BBY-NP-App-Corp-PaaS-SpringApps-VNET-USC-01"
+        },
+        "subnetname": {
+            "value": "BBY-NP-App-Corp-PaaS-SpringApps-VNET-USC-01-Subnet-SRJ-PL-Runtime-01"
+        },
+        "subnetaddressprefix": {
+            "value": "172.18.230.64/28"
+        },
+        "serviceEndpoints":{
+            "value": [
+               {
+                   "Service": "Microsoft.ContainerRegistry"
+               },
+               {
+                   "Service": "Microsoft.EventHub"
+               },
+               {
+                   "Service": "Microsoft.Storage"
+               },
+               {
+                   "Service": "Microsoft.KeyVault"
+               },
+               {
+                   "service": "Microsoft.ServiceBus"
+               },
+               {
+                   "service": "Microsoft.AzureCosmosDB"
+               }
+            ]
+        },
+        "delegations": {
+            "value":[]
+        },
+        "privateEndpointNetworkPolicies": {
+            "value": "Disabled"
+        }, 
+        "privateLinkServiceNetworkPolicies": {
+            "value": "Enabled"
+        }
+    }
+}

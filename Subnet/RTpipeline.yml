@@ -1,0 +1,64 @@
+name: Deploy Bicep template
+on: push
+# env:
+#   resourceGroupName: 'BBY-PD-App-Corp-Network-RG-USC-01'
+#   location: 'centralus'
+#   templateFile1: './RouteTable/RouteTable.bicep'
+#   parameterfile1: './RouteTable/Parameters/PROD-PaaS-Sub/*'
+jobs:
+  Validate:
+    name: Bicep Validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@main
+      # Log into Azure
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Az CLI Validate Route Table 
+        uses: Azure/CLI@v1
+        with:
+          inlineScript: |
+              $resourcegroup = "myrg1254"
+              $templatefile = "Subnet/SubnetMain.bicep"
+              $Inputfile = "./Subnet/filepath.csv"
+              $parameterlists = Import-Csv -path $Inputfile
+              $parameterlists | foreach-Object {
+              $parameterfile = $_.path
+              az deployment group validate --name subnet12543 --resource-group $resourcegroup --template-file $templatefile --parameters $parameterfile
+              }
+  # az deployment group validate --resource-group ${{ env.resourceGroupName }} --template-file ${{ env.templateFile1 }} --parameters @${{ env.parameterfile1 }}
+  # WhatIF:
+  #   name: Bicep WhatIF
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@main
+  #     # Log into Azure
+  #     - name: Azure Login
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Az CLI WhatiF Route Table 
+  #       uses: Azure/CLI@v1
+  #       with:
+  #         inlineScript: |
+  #           az deployment group what-if --resource-group ${{ env.resourceGroupName }} --template-file ${{ env.templateFile1 }} --parameters @${{ env.parameterfile1 }}
+  # Deploy:
+  #   name: Bicep deploy
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out repository code
+  #       uses: actions/checkout@main
+  #     # Log into Azure
+  #     - name: Azure Login
+  #       uses: azure/login@v1
+  #       with:
+  #         creds: ${{ secrets.AZURE_CREDENTIALS }}
+  #     - name: Az CLI Create Route Table 
+  #       uses: Azure/CLI@v1
+  #       with:
+  #         inlineScript: |
+  #           az deployment group create --resource-group ${{ env.resourceGroupName }} --template-file ${{ env.templateFile1 }} --parameters @${{ env.parameterfile1 }}	
